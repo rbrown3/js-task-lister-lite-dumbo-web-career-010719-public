@@ -1,13 +1,19 @@
-const submit = document.getElementById('create-task-form')
-submit.addEventListener("submit", addTask)
+const listArray = []
 
-
+// const submit = document.getElementById('create-task-form')
+// submit.addEventListener("submit", addTask)
 
 function addTask(event){
   event.preventDefault()
-  const description = document.getElementById('new-task-description').value
-  const taskUl = document.querySelector("#tasks")
+  const description = event.target.querySelector('input[type="text"]').value
+  // const taskDiv = document.querySelector("#all-lists")
 
+  // const select = document.getElementById("selectList");
+  // const index = parseInt(select.value)
+  // const listId = listArray[index].replace(" ", "-")
+  // const taskUl = document.getElementById(listId)
+
+  const taskUl = event.target.parentElement.querySelector('ul')
   const taskName = document.createElement('li')
   const deleteButton = document.createElement('button')
   deleteButton.className = "delete"
@@ -16,9 +22,6 @@ function addTask(event){
   taskUl.append(taskName)
   taskName.append(deleteButton)
   deleteButton.addEventListener("click", deleteTask)
-
-
-
 }
 
 function addList(event){
@@ -29,21 +32,33 @@ function addList(event){
   const listDiv = document.createElement('div')
   const listHead = document.createElement('h2')
   const listUl = document.createElement('ul')
+
+  const listForm = document.createElement('form')
+  listForm.innerHTML = `
+    <label for="new-task-description">Task description:</label>
+    <input type="text" id="new-task-description" name="new-task-description" placeholder="description">
+    <input type="submit" value="Create New Task">
+  `
+  listForm.addEventListener('submit', addTask)
+
   parentDiv.append(listDiv)
   listDiv.className = 'all-lists'
-  listDiv.append(listHead, listUl)
+  listDiv.append(listHead, listUl, listForm)
   listHead.innerText = title
   listUl.id = title.replace(" ", "-")
-  listArray.push(listHead.innerText)
+  const i = listArray.push(listHead.innerText)-1
   console.log(listArray)
 
-  const select = document.getElementById("selectList");
+  // const select = document.getElementById("selectList");
 
 
-  for (i = 0; i < listArray.length; i++){
-    const opt = document.createElement("option");
-    document.getElementById("selectList").innerHTML += '<option id="' + i + '">' + listArray[i] + '</option>';
-  }
+  // const opt = document.createElement("option");
+  // document.getElementById("selectList").innerHTML += '<option value="' + i + '">' + listHead.innerText + '</option>';
+
+  // for (i = 0; i < listArray.length; i++){
+  //   const opt = document.createElement("option");
+  //   document.getElementById("selectList").innerHTML += '<option value="' + i + '">' + listArray[i] + '</option>';
+  // }
 
 
   // const deleteButton = document.createElement('button')
@@ -58,7 +73,6 @@ function addList(event){
 const submitList = document.getElementById('create-list-form')
 submitList.addEventListener("submit", addList)
 
-const listArray = []
 
 // document.getElementById('parentDiv')
 
